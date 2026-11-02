@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101820" />
+
+    <title>Mulheres que Movem a Tecnologia — Margaret Hamilton</title>
+
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">MH</span>
+
+          <div>
+            <strong>MISSION CONTROL // MTEC</strong>
+            <small>EDIÇÃO MARGARET HAMILTON · APOLLO</small>
+          </div>
+        </div>
+
+        <div class="connection">
+          <span class="pulse"></span>
+          <span id="connectionLabel">DEMO / OFFLINE</span>
+          <span class="signal">▮▮▮</span>
+        </div>
+      </header>
+
+      <section class="hero-grid">
+        <div class="intro">
+          <p class="eyebrow">MULHERES NA CIÊNCIA · SOFTWARE DE VOO APOLLO</p>
+          <h1>Mulheres que<br /><em>Movem a</em><br /><em>Tecnologia</em></h1>
+          <p class="lede">
+            Margaret Hamilton liderou a equipe de Software Engineering Division
+            no MIT Instrumentation Laboratory, responsável pelo software de voo
+            das missões Apollo. Este painel homenageia a precisão e a visão
+            pioneira desse trabalho — e controla o nosso robô.
+          </p>
+          <div class="mission-caption">
+            <span class="mission-stamp">APOLLO<br />1969</span>
+            <span><b>SOFTWARE QUE GUIOU MISSÕES LUNARES</b><small>Uma homenagem a Margaret Hamilton e a toda a equipe de engenharia.</small></span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="card-kicker">
+            ESTADO DO ROBÔ
+            <span class="live-dot"></span>
+          </div>
+
+          <div class="motion-state" id="motionState">PARADO</div>
+
+          <div class="status-meta">
+            <span>modo <b id="modeReadout">MANUAL</b></span>
+            <span>
+              velocidade <b><span id="speedReadout">55</span>%</b>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel drive-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-index">01</span>
+              <h2>Comando</h2>
+            </div>
+
+            <span class="mode-tag" id="modeTag">MANUAL</span>
+          </div>
+
+          <div class="mode-switch" role="group" aria-label="Modo de operação">
+            <button class="mode-btn active" data-mode="manual">
+              Manual
+            </button>
+            <button class="mode-btn" data-mode="auto">
+              Automático
+            </button>
+          </div>
+
+          <div class="drive-area">
+            <div
+              class="joystick"
+              id="joystick"
+              role="application"
+              aria-label="Joystick virtual"
+            >
+              <div class="joystick-ring"></div>
+              <button
+                class="joystick-knob"
+                id="joystickKnob"
+                aria-label="Mover robô"
+              ></button>
+              <span class="joystick-label up">▲</span>
+              <span class="joystick-label down">▼</span>
+              <span class="joystick-label left">◀</span>
+              <span class="joystick-label right">▶</span>
+            </div>
+
+            <div class="drive-readout">
+              <p class="muted">DIREÇÃO</p>
+              <strong id="directionReadout">CENTRO</strong>
+              <p class="muted">Use WASD ou arraste o controle</p>
+            </div>
+          </div>
+
+          <div class="button-controls" role="group" aria-label="Botoes de direção">
+            <button class="direction-btn" data-direction="FRENTE" aria-label="Frente">▲</button>
+            <div>
+              <button class="direction-btn" data-direction="ESQUERDA" aria-label="Esquerda">◀</button>
+              <button class="direction-btn stop-btn" data-direction="CENTRO" aria-label="Parar">■</button>
+              <button class="direction-btn" data-direction="DIREITA" aria-label="Direita">▶</button>
+            </div>
+            <button class="direction-btn" data-direction="RÉ" aria-label="Ré">▼</button>
+          </div>
+
+          <div class="slider-row">
+            <label for="speedSlider">VELOCIDADE</label>
+            <output id="speedOutput">55%</output>
+            <input
+              id="speedSlider"
+              type="range"
+              min="0"
+              max="100"
+              value="55"
+            />
+          </div>
+        </article>
+
+        <article class="panel sensor-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-index">02</span>
+              <h2>Sensores de linha</h2>
+            </div>
+
+            <span class="unit">4-CH</span>
+          </div>
+
+          <p class="panel-note sensor-status" id="sensorStatus">Aguardando ESP8266</p>
+
+          <div class="sensor-row" id="sensorRow">
+            <div class="sensor"><span>S0</span><i></i><b>0</b></div>
+            <div class="sensor"><span>S1</span><i></i><b>0</b></div>
+            <div class="sensor"><span>S2</span><i></i><b>0</b></div>
+            <div class="sensor"><span>S3</span><i></i><b>0</b></div>
+          </div>
+
+          <div class="track-line">
+            <span></span><span></span><span></span><span></span>
+          </div>
+
+          <button class="ghost-btn" id="simulateSensors">
+            SIMULAR LEITURA (DEMO LOCAL)
+          </button>
+          <p class="panel-note auto-block-note" id="autoStatus">
+            Automático bloqueado: valide no código o mapeamento e a polaridade de S0–S3.
+          </p>
+        </article>
+
+        <article class="panel distance-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-index">03</span>
+              <h2>Distância frontal</h2>
+            </div>
+            <span class="unit" id="distanceModel">VL53</span>
+          </div>
+
+          <div class="distance-readout" aria-live="polite">
+            <strong id="distanceValue">—</strong>
+            <span>mm</span>
+          </div>
+          <p class="distance-status" id="distanceStatus">Aguardando leitura do sensor.</p>
+          <div class="distance-meter" role="meter" aria-label="Distância medida" aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0">
+            <span id="distanceMeterFill"></span>
+          </div>
+          <p class="distance-hint">VIN → 3V3 · GND → GND · SDA → D6 · SCL → D5</p>
+          <p class="distance-hint">GPIO1 e XSHUT não são usados nesta configuração.</p>
+        </article>
+
+        <article class="panel connection-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-index">04</span>
+              <h2>Conexão</h2>
+            </div>
+
+            <span class="wifi-icon">⌁</span>
+          </div>
+
+          <dl class="telemetry">
+            <div><dt>REDE</dt><dd>Robo_ESP8266</dd></div>
+            <div><dt>IP LOCAL</dt><dd>192.168.4.1</dd></div>
+            <div><dt>LATÊNCIA</dt><dd id="latency">— ms</dd></div>
+          </dl>
+
+          <button class="connect-btn" id="connectBtn" type="button">
+            <span class="btn-light"></span>
+            CONECTAR AO ROBÔ
+          </button>
+
+          <p class="warning">
+            <span>!</span>
+            A parada web não substitui a chave física.
+          </p>
+        </article>
+      </section>
+
+      <footer>
+        <span>FIRMWARE <b>0.1.0-EXERCISE</b></span>
+        <span>PINAGEM HW-300: <b class="amber">VALIDAR</b></span>
+        <span>WEB UI: <b class="cyan">DEMO</b></span>
+      </footer>
+    </main>
+
+    <button class="emergency" id="emergencyBtn">
+      <span>■</span>
+      PARADA DE EMERGÊNCIA
+    </button>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
